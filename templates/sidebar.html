@@ -1,0 +1,67 @@
+<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+
+    <!-- Sidebar - Brand -->
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" target="_blank" rel="noopener noreferrer" href="{{ url_for('home') }}">
+        <div class="mw-100"> 
+            <img style="height: 10rem;" src="{{ url_for('static', filename='anocam-logo/png/logo-white-removebg-preview.png') }}" alt="...">
+        </div>
+    </a>
+
+    <!-- Divider -->
+    <hr class="sidebar-divider my-0">
+
+    <!-- Nav Item - Dashboard -->
+    <li class="nav-item active">
+        <a class="nav-link" target="_blank" rel="noopener noreferrer" href="{{ url_for('home') }}">
+            <i class="fas fa-fw fa-tachometer-alt"></i>
+            <span>Dashboard</span></a>
+    </li>
+
+    <!-- Divider -->
+    <hr class="sidebar-divider">
+
+    <!-- Heading -->
+    <div class="sidebar-heading">
+        Configurations
+    </div>
+
+    <!-- Nav Item - Charts -->
+    <li class="nav-item">
+        <a class="nav-link" target="_blank" rel="noopener noreferrer" href="{{ url_for('events') }}">
+            <i class="fas fa-fw fa-table"></i>
+            <span>Events</span></a>
+    </li>
+
+    <!-- Nav Item - Tables -->
+    <li class="nav-item">
+        <a class="nav-link" target="_blank" rel="noopener noreferrer" href="{{ url_for('history') }}">
+            <i class="fas fa-fw fa-history"></i>
+            <span>History</span></a>
+    </li>
+
+    <!-- Nav Item - Tables -->
+    <li class="nav-item">
+        <a class="nav-link" target="_blank" rel="noopener noreferrer" href="{{ url_for('setting') }}">
+            <i class="fas fa-fw fa-brain"></i>
+            <span>Settings</span></a>
+    </li>
+
+    <!-- Nav Item - Tables -->
+    <li class="nav-item">
+        <a class="nav-link" target="_blank" rel="noopener noreferrer" href="{{ url_for('upload') }}">
+            <i class="fas fa-fw fa-book-open"></i>
+            <span>Upload Video</span></a>
+    </li>
+
+    <!-- Divider -->
+    <hr class="sidebar-divider d-none d-md-block">
+
+    <!-- Sidebar Toggler (Sidebar) -->
+    <div class="text-center d-none d-md-inline">
+        <button class="rounded-circle border-0" id="sidebarToggle"></button>
+    </div>
+
+    <!-- Sidebar Message -->
+    <img class="sidebar-card d-none d-lg-flex" src="{{ url_for('static', filename='giphy.gif') }}" alt="...">
+
+</ul>

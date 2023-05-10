@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Anocam - History</title>
+
+    <!-- Custom fonts for this template-->
+    <!-- {{ url_for('static', filename='css/sb-admin-2.min.css') }} -->
+    <link href="{{ url_for('static', filename='vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet"
+        type="text/css">
+    <link
+        href="{{ url_for('static', filename='https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i') }}"
+        rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link href="{{ url_for('static', filename='css/sb-admin-2.min.css') }}" rel="stylesheet">
+
+</head>
+
+<body id="page-top">
+
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+        {% include "sidebar.html" %}
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content" style="margin: 20px">
+
+                <!-- Topbar -->
+                {% include "topbar.html" %}
+                <!-- End of Topbar -->
+
+                <!-- Begin Page Content -->
+                <h2 class='mb-3' style="margin: 20px!important; font-size: 75px; font-family: monospace, sans-serif;">
+                    History of Cameras</h2>
+                <div id="accordion">
+                    {% if cameras != None: %}
+                    {% for cam in cameras %}
+                    <div class="card">
+                        <div class="card-header" id="heading_{{cam.cam_id}}">
+                            <h5 class="mb-0">
+                                <button class="btn btn-link" data-toggle="collapse"
+                                    data-target="#collapse_{{cam.cam_id}}" aria-expanded="true"
+                                    aria-controls="collapse_{{cam.cam_id}}">
+                                    {{cam.cam_name}}
+                                </button>
+                            </h5>
+                        </div>
+
+                        <div id="collapse_{{cam.cam_id}}" class="collapse" aria-labelledby="heading_{{cam.cam_id}}"
+                            data-parent="#accordion">
+                            <div class="card-body">
+                                <table id="table_{{cam.cam_id}}" class="table table-hover"
+                                    style="margin: 10px; margin-block-end: 40%; border-radius: 12px;">
+                                    <thead style="background-color: rgba(73,111,231,255);
+                        color: white;  border-radius: 12px;">
+                                        <tr>
+                                            <th class="th-sm">History ID
+                                            </th>
+                                            <th class="th-sm">Time
+                                            </th>
+                                            <th class="th-sm">Actions
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% if history_videos != None: %}
+                                        {% if history_videos[cameras.index(cam)] != None: %}
+                                        {% for his in history_videos[cameras.index(cam)] %}
+                                        <tr>
+                                            <td name="date_time">{{his.CameraHistoryID}}</td>
+                                            <td style="color:rgb(23, 59, 116)">{{his.datetime}}
+                                            </td>
+                                            <td><a href="{{ url_for('display_history_video', filename=his.FilePath) }}""><i class="fa fa-play-circle"
+                                                    style="font-size:30px; color: rgb(245, 164, 59);"></i></a></td>
+                                        </tr>
+                                        {% endfor %}
+                                        {% endif %}
+                                        {% endif %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- /.container-fluid -->
+                    {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+            <!-- End of Main Content -->
+
+            <!-- Footer -->
+            <footer class="sticky-footer bg-white">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span>Copyright &copy; Your Website 2021</span>
+                    </div>
+                </div>
+            </footer>
+            <!-- End of Footer -->
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- Logout Modal-->
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Select "Logout" below if you are ready to end your current session.
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <a class="btn btn-primary" href="login.html">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Icon action -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.3/dist/jquery.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>$('#radioBtn a').on('click', function () {
+            var sel = $(this).data('title');
+            var tog = $(this).data('toggle');
+            $('#' + tog).prop('value', sel);
+
+            $('a[data-toggle="' + tog + '"]').not('[data-title="' + sel + '"]').removeClass('active').addClass('notActive');
+            $('a[data-toggle="' + tog + '"][data-title="' + sel + '"]').removeClass('notActive').addClass('active');
+        })</script>
+    <!-- display table-->
+    <script>
+        const myButton = document.getElementById("myButtons");
+        const myTable = document.getElementById("dtBasicExample");
+        myButton.addEventListener("click", function () {
+            if (myTable.style.display === "none") {
+                myTable.style.display = "table";
+            } else {
+                myTable.style.display = "none";
+            }
+        });
+    </script>
+    <!-- Icon Replay-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
+        integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    </head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/@coreui/icons@2.0.0-beta.3/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/@coreui/icons@2.0.0-beta.3/css/free.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/@coreui/icons@2.0.0-beta.3/css/brand.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/@coreui/icons@2.0.0-beta.3/css/flag.min.css">
+    <script src=" {{ url_for('static', filename='/vendor/datatables/datatable.js') }}"></script>
+    <!-- Bootstrap core JavaScript-->
+    <script src=" {{ url_for('static', filename='static/vendor/datatables/dataTables.bootstrap4.js') }}"></script>
+    <script src=" {{ url_for('static', filename='vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src=" {{ url_for('static', filename='vendor/jquery-easing/jquery.easing.min.js') }}"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src=" {{ url_for('static', filename='js/sb-admin-2.min.js') }}"></script>
+
+    <!-- Page level plugins -->
+    <script src=" {{ url_for('static', filename='vendor/chart.js/Chart.min.js') }}"></script>
+
+    <!-- Page level custom scripts -->
+    <script src=" {{ url_for('static', filename='js/demo/chart-area-demo.js') }}"></script>
+    <script src=" {{ url_for('static', filename='js/demo/chart-pie-demo.js') }}"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css" />
+    <link href="thesis_2023_fptu/icheck-bootstrap-master/icheck-bootstrap.css" rel="stylesheet">
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
+    <script>
+        $(document).ready(function () {
+            const cameras = {{ cameras| tojson
+        }};
+        for (let i = 0; i < cameras.length; i++) {
+            cam_id = cameras[i]['cam_id']
+            $('#table_'+cam_id).DataTable();
+        }
+        
+        });
+    </script>
+</body>
+<!--play circle-->
+
+</html>

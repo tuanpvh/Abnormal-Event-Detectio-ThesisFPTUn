@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Anocam - Home</title>
+
+    <!-- Custom fonts for this template-->
+    <!-- {{ url_for('static', filename='css/sb-admin-2.min.css') }} -->
+    <link href="{{ url_for('static', filename='vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
+    <link
+        href="{{ url_for('static', filename='https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i') }}"
+        rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link href="{{ url_for('static', filename='css/sb-admin-2.min.css') }}" rel="stylesheet">
+
+</head>
+
+<body id="page-top">
+
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+        <!-- Sidebar -->
+        {% include "sidebar.html" %}
+        <!-- End of Sidebar -->
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content">
+
+                <!-- Topbar -->
+                {% include "topbar.html" %}
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+
+                    <!-- Page Heading -->
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+                            <i class="fas fa-camera fa-sm text-white-50"></i> Add More Cameras</button>
+                    </div>
+                    <!-- Modal -->
+                    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLongTitle">Add New Cameras</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            </div>
+                            
+                                <div class="modal-body">
+                                    <form id="addCam" action="{{ url_for('add_camera') }}" method="POST">
+                                        <div class="form-group">
+                                        <label for="ip_address">IP Address</label>
+                                        <input id="ipAdd" id="ip_address" name="ip_address" class="form-control" aria-describedby="ipHelp" placeholder="Enter IP Address" required>
+                                        <small id="ipHelp" class="form-text text-muted">We'll never share your camera ip with anyone else.</small>
+                                        </div>
+                                        <div class="form-group">
+                                        <label for="exampleInputPassword1">Camera Password</label>
+                                        <input type="password" name="cam_pwd" class="form-control" id="exampleInputPassword1" placeholder="Password" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="cam_name">Camera Name</label>
+                                            <input id="cam_name" name="camera_name" class="form-control" placeholder="Camera Name" required>
+                                        </div>
+                                    
+                                </div>
+                                <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <input type="submit" class="btn btn-primary" value="Submit">
+                                    </form>
+                                </div>
+                            
+                        </div>
+                        </div>
+                    </div>
+                    <!-- Content Row -->
+                    <div class="row">
+
+                        <!-- Earnings (Monthly) Card Example -->
+                        <div class="col-xl-4 col-md-6 mb-4">
+                            <div class="card border-left-primary shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                Active Cameras</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">{% if session['cameras'] != None: %} {{session['cameras']|length}} {% else: %} {{0}} {% endif %}</div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-video fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Earnings (Monthly) Card Example -->
+                        <div class="col-xl-4 col-md-6 mb-4">
+                            <div class="card border-left-success shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                                Abnormal Event Detected</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{session['num_event']}}</div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-bell fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Earnings (Monthly) Card Example -->
+                        <div class="col-xl-4 col-md-6 mb-4">
+                            <div class="card border-left-danger shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Wrong Detection
+                                            </div>
+                                            <div class="row no-gutters align-items-center">
+                                                <div class="col-auto">
+                                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">{{session['num_wrong_event']}}</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-low-vision fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                    <!-- Content Row -->
+                    {% if session['cameras'] != None: %}
+                    {% for cam in session['cameras'] %}
+                    <div class="row">
+                        <!-- Area Chart -->
+                        <div class="col-xl-8 col-lg-7">
+                            <div class="card shadow mb-4">
+                                <!-- Card Header - Dropdown -->
+                                <div
+                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                    <h6 class="m-0 font-weight-bold text-primary">{{cam.cam_name}}</h6>
+                                    <div class="dropdown no-arrow">
+                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                                        </a>
+                                    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                                        aria-labelledby="dropdownMenuLink">
+                                        <div class="dropdown-header">Action:</div>
+                                        <a class="dropdown-item" href="#">View History</a>
+                                        <form action="{{ url_for('remove_camera') }}" method="POST">
+                                            <input name='cam_id' value='{{cam.cam_id}}' style='display:None;'>
+                                            <input class="dropdown-item" type='submit' value='Remove Your Camera'> 
+                                        </form>   
+                                    </div>
+                                </div>
+
+                                </div>
+                                <!-- Card Body -->
+                                <div class="card-body">
+                                    <img class="img-fluid" src="{{ 'video_feed/cam_{}'.format(cam.cam_id) }}" />                                
+                                </div>
+                            </div>
+                            
+                        </div>
+
+                        <!-- Pie Chart -->
+                        <div class="col-xl-4 col-lg-5">
+                            <div class="card shadow mb-4">
+                                <!-- Card Header - Dropdown -->
+                                <div
+                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                    <h6 class="m-0 font-weight-bold text-primary">Events Streaming For {{cam.cam_name}}</h6>
+                
+                                </div>
+                                
+                                <!-- Card Body -->
+                                <div class="card-body">
+                                    
+                                    <div style="max-height: 400px; overflow-y: scroll" id="logging{{cam.cam_id}}" class="mt-4 text-center small">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    {% endif %}
+                </div>
+                <!-- /.container-fluid -->
+
+            </div>
+            <!-- End of Main Content -->
+
+            <!-- Footer -->
+            <footer class="sticky-footer bg-white">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span>Copyright &copy; Anocam 2023</span>
+                    </div>
+                </div>
+            </footer>
+            <!-- End of Footer -->
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- Bootstrap core JavaScript-->
+    <script src=" {{ url_for('static', filename='vendor/jquery/jquery.min.js') }}"></script>
+    <script src=" {{ url_for('static', filename='vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="https://cdn.socket.io/socket.io-1.0.0.js"></script>
+
+
+    <!-- Core plugin JavaScript-->
+    <script src=" {{ url_for('static', filename='vendor/jquery-easing/jquery.easing.min.js') }}"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src=" {{ url_for('static', filename='js/sb-admin-2.min.js') }}"></script>
+
+    <!-- Page level plugins -->
+    <script src=" {{ url_for('static', filename='vendor/chart.js/Chart.min.js') }}"></script>
+
+    <!-- Page level custom scripts -->
+    <script src=" {{ url_for('static', filename='js/demo/chart-area-demo.js') }}"></script>
+    <script src=" {{ url_for('static', filename='js/demo/chart-pie-demo.js') }}"></script>
+
+    <script>
+        $(document).ready(function(){
+        // sending a connect request to the server.
+            var socket = io.connect('http://localhost:5000');
+            const cameras = {{ cameras|tojson }};
+            console.log(cameras);
+                
+            cam_id_0 = cameras[0]['cam_id'];
+            socket.on('event_cam_' + cam_id_0, function(msg){
+                var anomaly_msg = "Normal Event"
+                var anomaly_class = "alert-success"
+                if (msg['anomaly']==1){
+                    anomaly_msg = "Abnormal Event"
+                    anomaly_class = "alert-danger"
+                }
+                console.log(anomaly_msg)
+                $("#logging"+cam_id_0).prepend('<div class="alert '+anomaly_class+'" role="alert"><strong>'+msg['time']+'</strong> - '+anomaly_msg+' </div>');
+            });
+
+            cam_id_1 = cameras[1]['cam_id'];
+            socket.on('event_cam_' + cam_id_1, function(msg){
+                var anomaly_msg = "Normal Event"
+                var anomaly_class = "alert-success"
+                if (msg['anomaly']==1){
+                    anomaly_msg = "Abnormal Event"
+                    anomaly_class = "alert-danger"
+                }
+                console.log(anomaly_msg)
+                $("#logging"+cam_id_1).prepend('<div class="alert '+anomaly_class+'" role="alert"><strong>'+msg['time']+'</strong> - '+anomaly_msg+' </div>');
+            });
+
+            cam_id_2 = cameras[2]['cam_id'];
+            socket.on('event_cam_' + cam_id_2, function(msg){
+                var anomaly_msg = "Normal Event"
+                var anomaly_class = "alert-success"
+                if (msg['anomaly']==1){
+                    anomaly_msg = "Abnormal Event"
+                    anomaly_class = "alert-danger"
+                }
+                console.log(anomaly_msg)
+                $("#logging"+cam_id_2).prepend('<div class="alert '+anomaly_class+'" role="alert"><strong>'+msg['time']+'</strong> - '+anomaly_msg+' </div>');
+            });
+
+            cam_id_3 = cameras[3]['cam_id'];
+            socket.on('event_cam_' + cam_id_3, function(msg){
+                var anomaly_msg = "Normal Event"
+                var anomaly_class = "alert-success"
+                if (msg['anomaly']==1){
+                    anomaly_msg = "Abnormal Event"
+                    anomaly_class = "alert-danger"
+                }
+                console.log(anomaly_msg)
+                $("#logging"+cam_id_3).prepend('<div class="alert '+anomaly_class+'" role="alert"><strong>'+msg['time']+'</strong> - '+anomaly_msg+' </div>');
+            });
+
+
+            cam_id_4 = cameras[4]['cam_id'];
+            socket.on('event_cam_' + cam_id_4, function(msg){
+                var anomaly_msg = "Normal Event"
+                var anomaly_class = "alert-success"
+                if (msg['anomaly']==1){
+                    anomaly_msg = "Abnormal Event"
+                    anomaly_class = "alert-danger"
+                }
+                console.log(anomaly_msg)
+                $("#logging"+cam_id_4).prepend('<div class="alert '+anomaly_class+'" role="alert"><strong>'+msg['time']+'</strong> - '+anomaly_msg+' </div>');
+            });
+
+
+        });
+    </script>
+</body>
+
+</html>
